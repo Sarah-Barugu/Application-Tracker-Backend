@@ -12,4 +12,4 @@ const aboutMeSchema = new mongoose.Schema({
 
 const About = mongoose.model("About", aboutMeSchema);
 
-exports.module = About;
+module.exports = About;

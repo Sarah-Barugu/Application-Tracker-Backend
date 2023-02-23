@@ -45,48 +45,114 @@ const createJobsApplied = async (req, res) => {
     return res.status(200).json({ msg: "Job applied successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
+    });
   }
 };
 
+// const getAllAppliedJobs = async (req, res) => {
+//   const userJobsApplied = await JobsApplied.findOne({ userId: req.user });
+
+//   if (!userJobsApplied) {
+//     return res.status(404).json({
+//       msg: "No applied jobs found for this user",
+//     });
+//   }
+
+//   const appliedJobIds = userJobsApplied.jobsId;
+
+//   const jobs = await Jobs.find({ _id: { $in: appliedJobIds } });
+
+//   if (!jobs) {
+//     return res.status(404).json({
+//       msg: "No jobs found for the applied job ids",
+//     });
+//   }
+
+//   res.status(200).json({
+//     msg: "Jobs Applied Fetched",
+//     result: jobs.length,
+//     data: jobs,
+//   });
+// };
+
 const getAllAppliedJobs = async (req, res) => {
-  const userJobsApplied = await JobsApplied.findOne({ userId: req.user });
+  try {
+    const userJobsApplied = await JobsApplied.findOne({ userId: req.user });
 
-  if (!userJobsApplied) {
-    return res.status(404).json({
-      msg: "No applied jobs found for this user",
+    if (!userJobsApplied) {
+      return res.status(404).json({
+        msg: "No applied jobs found for this user",
+      });
+    }
+
+    const appliedJobIds = userJobsApplied.jobsId;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const jobs = await Jobs.find({ _id: { $in: appliedJobIds } })
+      .skip(startIndex)
+      .limit(limit);
+
+    const totalJobs = await Jobs.countDocuments({
+      _id: { $in: appliedJobIds },
+    });
+    const totalPages = Math.ceil(totalJobs / limit);
+
+    if (!jobs) {
+      return res.status(404).json({
+        msg: "No jobs found for the applied job ids",
+      });
+    }
+
+    res.status(200).json({
+      msg: "Jobs Applied Fetched",
+      resultQuantity: jobs.length,
+      data: jobs,
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
     });
   }
-
-  const appliedJobIds = userJobsApplied.jobsId;
-
-  const jobs = await Jobs.find({ _id: { $in: appliedJobIds } });
-
-  if (!jobs) {
-    return res.status(404).json({
-      msg: "No jobs found for the applied job ids",
-    });
-  }
-
-  res.status(200).json({
-    msg: "Jobs Applied Fetched",
-    result: jobs.length,
-    data: jobs,
-  });
 };
 
 const getAllJobOffers = async (req, res) => {
-  const userJobExist = await JobsApplied.findOne({ userId: req.user });
+  try {
+    const userJobExist = await JobsApplied.findOne({ userId: req.user });
 
-  const jobOffers = userJobExist.jobsId.map((job) => {
-    job.status === "OFFERED";
-  });
+    const jobOffers = userJobExist.jobsId.map((job) => {
+      job.status === "OFFERED";
+    });
 
-  res.json(200).json({
-    msg: "Jobs offers Fetched",
-    result: jobOffers.length,
-    data: jobOffers,
-  });
+    res.json(200).json({
+      msg: "Jobs offers Fetched",
+      resultQuantity: jobOffers.length,
+      data: jobOffers,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
 };
 
-module.exports = { createJobsApplied, getAllAppliedJobs, getAllJobOffers };
+module.exports = {
+  createJobsApplied,
+  getAllAppliedJobs,
+  getAllJobOffers,
+};

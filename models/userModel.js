@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const crypto = require('crypto')
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
   fullName: {
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "please provide your password"],
-    minlength: 5,
+    minlength: 6,
     // select: false
   },
   confirmPassword: {
@@ -53,7 +53,7 @@ const UserSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
-    default: "default.png",
+    default: "user.png",
   },
   location: {
     type: String,
@@ -63,7 +63,7 @@ const UserSchema = new mongoose.Schema({
   aboutMe: {
     type: String,
   },
-  isTrash: {
+  isDeleted: {
     type: Boolean,
     default: false,
   },

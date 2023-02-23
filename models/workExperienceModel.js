@@ -24,4 +24,4 @@ const workExperienceSchema = new mongoose.Schema({
 
 const Work = mongoose.model("Work", workExperienceSchema);
 
-exports.module = Work;
+module.exports = Work;

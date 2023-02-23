@@ -21,10 +21,10 @@ const jobsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  isTrash: {
+  isDeleted: {
     type: Boolean,
     default: false,
-    select: false
+    select: false,
   },
   jobDescription: {
     type: String,
@@ -57,13 +57,13 @@ const jobsSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Jobs",
     },
-  ]
+  ],
 });
 
-jobsSchema.pre(/^find/, function(next) {
-  this.find({ isTrash: { $ne: true } });
+jobsSchema.pre(/^find/, function (next) {
+  this.find({ isDeleted: { $ne: true } });
   next();
-})
+});
 
 const Jobs = mongoose.model("Jobs", jobsSchema);
 

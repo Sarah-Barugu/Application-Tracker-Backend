@@ -1,45 +1,72 @@
 const Education = require("../models/educationModel");
 
 const createEducation = async (req, res) => {
-  const education = await Education.create({
-    jobTitle: req.body.jobTitle,
-    companyName: req.body.companyName,
-    jobDescription: req.body.jobDescription,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    userId: req.user,
-  });
+  try {
+    const education = await Education.create({
+      school: req.body.school,
+      course: req.body.course,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      userId: req.user,
+    });
 
-  res.status(201).json({
-    msg: "Education created",
-    data: education,
-  });
+    res.status(201).json({
+      msg: "Education created",
+      data: education,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
 };
 
 const getAllEducation = async (req, res) => {
-  const education = await Education.findById(req.user);
+  try {
+    const education = await Education.find({ userId: req.user });
 
-  res.status(200).json({
-    msg: "Fetched Successfully",
-    result: education.length,
-    data: education,
-  });
+    res.status(200).json({
+      msg: "Fetched Successfully",
+      resultQuantity: education.length,
+      data: education,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
 };
 
 const updateEducation = async (req, res) => {
-  const education = await Education.findByIdAndUpdate(req.user, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  try {
+    const education = await Education.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-  res.status(200).json({
-    msg: "Education Updated",
-    data: education,
-  });
+    res.status(200).json({
+      msg: "Education Updated",
+      data: education,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
 };
 
 // const deleteEducation= async (req, res) => {
-//   await Education.findByIdAndUpdate(req.user, { isTrash: true });
+//   await Education.findByIdAndUpdate(req.user, { isDeleted: true });
 
 //   res.status(200).json({
 //     msg: "Deleted Successfully",

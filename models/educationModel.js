@@ -21,4 +21,4 @@ const educationSchema = new mongoose.Schema({
 
 const Education = mongoose.model("Education", educationSchema);
 
-exports.module = Education;
+module.exports = Education;
