@@ -104,7 +104,6 @@ const updateProfile = async (req, res) => {
         skills: req.body.skills,
         tools: req.body.tools,
         profilePhoto: imagePath,
-        aboutMe: req.body.aboutMe,
       },
       {
         new: true,

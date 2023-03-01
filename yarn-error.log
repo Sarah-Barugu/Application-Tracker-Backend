@@ -1,0 +1,58 @@
+Arguments: 
+  /Users/ATB/.nvm/versions/node/v16.9.1/bin/node /Users/ATB/.nvm/versions/node/v16.9.1/bin/yarn start
+
+PATH: 
+  /Users/ATB/.nvm/versions/node/v16.9.1/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/ATB/Library/Android/sdk/emulator:/Users/ATB/Library/Android/sdk/tools:/Users/ATB/Library/Android/sdk/tools/bin:/Users/ATB/Library/Android/sdk/platform-tools:/Users/ATB/.rvm/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.9.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/ATB/Desktop/Application Tracker API/package.json: Unexpected token / in JSON at position 143
+      at JSON.parse (<anonymous>)
+      at /Users/ATB/.nvm/versions/node/v16.9.1/lib/node_modules/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/Users/ATB/.nvm/versions/node/v16.9.1/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /Users/ATB/.nvm/versions/node/v16.9.1/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "myxalarynode",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon app.js",
+      // "ngrok": "ngrok http 3000",
+      "dev": "yarn start & yarn ngrok"
+    },
+    "author": "'Sarah Barrs'",
+    "license": "ISC",
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "dotenv": "^16.0.3",
+      "express": "^4.18.2",
+      "express-fileupload": "^1.4.0",
+      "html-to-text": "^9.0.4",
+      "http-status-codes": "^2.2.0",
+      "jsonwebtoken": "^9.0.0",
+      "mongoose": "^6.9.2",
+      "nodemailer": "^6.9.1",
+      "validator": "^13.9.0"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.20"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

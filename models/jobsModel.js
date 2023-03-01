@@ -16,7 +16,11 @@ const jobsSchema = new mongoose.Schema({
   salary: {
     type: String,
   },
-  skills: [String],
+  skills: [
+    {
+      type: String,
+    },
+  ],
   postedAt: {
     type: Date,
     default: Date.now(),

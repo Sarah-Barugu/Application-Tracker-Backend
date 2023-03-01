@@ -31,9 +31,8 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
 
 //Routes
-app.use("/api/v1/jobs", jobsRoutes);
+app.use("/api/v1/jobs", jobsRoutes, jobsAppliedRoutes);
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/jobs", jobsAppliedRoutes);
 app.use("/api/v1/offer", offerRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/aboutMe", aboutMeRoutes);

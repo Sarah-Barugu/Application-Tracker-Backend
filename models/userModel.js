@@ -58,11 +58,16 @@ const UserSchema = new mongoose.Schema({
   location: {
     type: String,
   },
-  skills: [String],
-  tools: [String],
-  aboutMe: {
-    type: String,
-  },
+  skills: [
+    {
+      type: String,
+    },
+  ],
+  tools: [
+    {
+      type: String,
+    },
+  ],
   isDeleted: {
     type: Boolean,
     default: false,

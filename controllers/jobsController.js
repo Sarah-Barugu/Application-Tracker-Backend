@@ -1,9 +1,38 @@
 const Jobs = require("../models/jobsModel");
+const path = require("path");
 
 const createJobs = async (req, res) => {
+  if (!req.files) {
+    return res.status(400).json({
+      msg: "No logo Uploaded",
+    });
+  }
+  const logoImage = req.files.companyLogo;
+  // console.log(logoImage);
+
+  if (!logoImage.mimetype.startsWith("image/png")) {
+    return res.status(400).json({
+      msg: "Please Upload Your logo",
+    });
+  }
+
+  const maxSize = 1024 * 1024;
+
+  if (logoImage.size > maxSize) {
+    return res.status(400).json({
+      msg: "Please upload logo smaller than 1MB",
+    });
+  }
+
+  const logoPath = path.join(
+    __dirname,
+    "../public/logo/" + `${logoImage.name}`
+  );
+  await logoImage.mv(logoPath);
+
   try {
     const jobs = await Jobs.create({
-      companyLogo: req.body.companyLogo,
+      companyLogo: logoPath,
       companyName: req.body.companyName,
       jobRole: req.body.jobRole,
       location: req.body.location,
