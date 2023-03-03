@@ -42,6 +42,15 @@ const createJobsApplied = async (req, res) => {
     jobsApplied.jobsId.push(jobId);
     await jobsApplied.save();
 
+    // await Jobs.findByIdAndUpdate(
+    //   jobId,
+    //   { status: "CLOSED" },
+    //   {
+    //     new: true,
+    //     runValidators: true,
+    //   }
+    // );
+    console.log(jobId);
     return res.status(200).json({ msg: "Job applied successfully" });
   } catch (error) {
     console.error(error);

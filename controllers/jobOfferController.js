@@ -79,6 +79,7 @@ const getAllUserJobOffers = async (req, res) => {
 
     // Get the job offers where the user id equals the id of the current logged in user
     const jobOffers = await JobOffer.find({ userId: req.user })
+      .populate(["userId", "jobId"])
       .skip(startIndex)
       .limit(limit);
 

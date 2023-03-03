@@ -5,7 +5,8 @@ const { StatusCodes } = require("http-status-codes");
 const getMyAccount = async (req, res) => {
   try {
     const user = await User.findById(req.user);
-    res.status(StatusCodes.OK).json({ msg: "My Account", user });
+    console.log(user);
+    return res.status(StatusCodes.OK).json({ msg: "My Account", user });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -63,32 +64,32 @@ const getSingleUser = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    if (!req.files) {
-      return res.status(400).json({
-        msg: "No picture Uploaded",
-      });
-    }
-    const userImage = req.files.image;
+    // if (!req.files) {
+    //   return res.status(400).json({
+    //     msg: "No picture Uploaded",
+    //   });
+    // }
+    // const userImage = req.files.image;
 
-    if (!userImage.mimetype.startsWith("image")) {
-      return res.status(400).json({
-        msg: "Please Upload Your profile picture",
-      });
-    }
+    // if (!userImage.mimetype.startsWith("image")) {
+    //   return res.status(400).json({
+    //     msg: "Please Upload Your profile picture",
+    //   });
+    // }
 
-    const maxSize = 1024 * 1024;
+    // const maxSize = 1024 * 1024;
 
-    if (userImage.size > maxSize) {
-      return res.status(400).json({
-        msg: "Please upload image smaller than 1MB",
-      });
-    }
+    // if (userImage.size > maxSize) {
+    //   return res.status(400).json({
+    //     msg: "Please upload image smaller than 1MB",
+    //   });
+    // }
 
-    const imagePath = path.join(
-      __dirname,
-      "../public/userProfile/" + `${userImage.name}`
-    );
-    await userImage.mv(imagePath);
+    // const imagePath = path.join(
+    //   __dirname,
+    //   "../public/userProfile/" + `${userImage.name}`
+    // );
+    // await userImage.mv(imagePath);
 
     // 3) update user document
     const updateUser = await User.findByIdAndUpdate(
@@ -103,13 +104,14 @@ const updateProfile = async (req, res) => {
         birthday: req.body.birthday,
         skills: req.body.skills,
         tools: req.body.tools,
-        profilePhoto: imagePath,
+        // profilePhoto: imagePath,
       },
       {
         new: true,
         runValidators: true,
       }
     );
+    console.log(req.user, updateUser, req.body);
 
     res.status(StatusCodes.OK).json({
       status: "success",
